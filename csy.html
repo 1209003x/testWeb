@@ -142,19 +142,28 @@
   let rotation = 0;
   let rotationInterval;
 
-  playBtn.addEventListener('click', () => {
-	isPlaying = !isPlaying;
-	if (isPlaying) {
-	  playBtn.innerHTML = '㉿';
-	  rotationInterval = setInterval(() => {
-		rotation += 1;
-		cover.style.transform = `rotate(${rotation}deg)`;
-	  }, 100);
-	} else {
-	  playBtn.innerHTML = '㉿';
-	  clearInterval(rotationInterval);
-	}
-  });
+const cover = document.getElementById('cover');
+const playBtn = document.getElementById('playBtn');
+const audioPlayer = document.getElementById('audioPlayer');
+let isPlaying = false;
+let rotation = 0;
+let rotationInterval;
+
+playBtn.addEventListener('click', () => {
+  isPlaying = !isPlaying;
+  if (isPlaying) {
+	audioPlayer.play();
+	playBtn.innerHTML = '㉿';
+	rotationInterval = setInterval(() => {
+	  rotation += 1;
+	  cover.style.transform = `rotate(${rotation}deg)`;
+	}, 100);
+  } else {
+	audioPlayer.pause();
+	playBtn.innerHTML = '㉿';
+	clearInterval(rotationInterval);
+  }
+});
 </script>
 <h2>感谢观看！</h2>
 <p2>此网站创作权 解释权归站长所有<br>
