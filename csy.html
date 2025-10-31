@@ -69,6 +69,17 @@
 			padding-bottom: 4px;
 			box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 		}
+span {
+			font-size: 28px;
+			line-height: 1.3;
+			margin-bottom: 24px;
+		}
+		
+		.person {
+			border-bottom: 1px solid #ddd;
+			padding-bottom: 4px;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+		}
 	</style>
 </head>
 <body>
@@ -118,53 +129,184 @@
 <br>
 <br>
 <p2>既然都看到这了 听听歌开心一下吧（嘻嘻）</p2>
-<div style="width:100%; max-width:400px; height:100px; background: rgba(0,0,0,0.5); border-radius:8px; display:flex; align-items:center; padding:0 10px; box-sizing:border-box;">
-  <!-- 封面图（可替换为你的图片路径） -->
-  <img id="cover" src="cxk.jpg" style="width:80px; height:80px; border-radius:50%; object-fit:cover; margin-right:10px; transition: transform 0.3s ease-in-out;">
-  <div style="flex:1; color:#fff;">
-	<div style="font-size:14px; font-weight:bold;">Deadman</div>
-	<div style="font-size:12px; opacity:0.8;">蔡徐坤</div>
-	<!-- 播放控制按钮（样式可自定义） -->
-	<div style="margin-top:5px; display:flex; align-items:center;">
-	  <button style="background:none; border:none; color:#fff; margin-right:10px;">◁</button>
-	  <button id="playBtn" style="background:none; border:none; color:#fff; margin-right:10px;">㉿</button>
-	  <button style="background:none; border:none; color:#fff;">▷</button>
-	</div>
-  </div>
-  <button style="background:none; border:none; color:#fff; margin-left:10px;">♥</button>
-</div>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>迷你音乐播放器</title>
+    <style>
+        .mini-player {
+            width: 300px;
+            height: 120px;  /* 高度从150px减小到120px */
+            background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+            border-radius: 12px;
+            padding: 10px;  /* 内边距相应减小 */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            margin: 20px auto;
+        }
 
-<audio id="audioPlayer" src="Deadman-蔡徐坤.mp3" preload="auto"></audio>
-<script>
-  const cover = document.getElementById('cover');
-  const playBtn = document.getElementById('playBtn');
-  let isPlaying = false;
-  let rotation = 0;
-  let rotationInterval;
+        .player-content {
+            display: flex;
+            flex: 1;
+        }
 
-const cover = document.getElementById('cover');
-const playBtn = document.getElementById('playBtn');
-const audioPlayer = document.getElementById('audioPlayer');
-let isPlaying = false;
-let rotation = 0;
-let rotationInterval;
+        .vinyl-container {
+            position: relative;
+            width: 70px;  /* 唱片尺寸相应减小 */
+            height: 70px;
+            margin-right: 12px;
+        }
 
-playBtn.addEventListener('click', () => {
-  isPlaying = !isPlaying;
-  if (isPlaying) {
-	audioPlayer.play();
-	playBtn.innerHTML = '㉿';
-	rotationInterval = setInterval(() => {
-	  rotation += 1;
-	  cover.style.transform = `rotate(${rotation}deg)`;
-	}, 100);
-  } else {
-	audioPlayer.pause();
-	playBtn.innerHTML = '㉿';
-	clearInterval(rotationInterval);
-  }
-});
-</script>
+        .vinyl {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+            transition: transform 0.3s ease;
+        }
+
+        .vinyl-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .vinyl-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .song-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .song-title {
+            font-size: 14px;  /* 字体相应减小 */
+            font-weight: bold;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .song-artist {
+            font-size: 11px;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;  /* 按钮尺寸减小 */
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .play-pause {
+            font-size: 20px;
+        }
+
+        .favorite {
+            color: #ff4757;
+            font-size: 16px;
+            margin-left: auto;
+        }
+
+        .favorite.active {
+            color: #ff4757;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .vinyl.playing {
+            animation: rotate 5s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="mini-player">
+        <div class="player-content">
+            <div class="vinyl-container">
+                <div class="vinyl" id="vinyl">
+                    <img src="cxk.jpg"class="vinyl-image">
+                    <div class="vinyl-center"></div>
+                </div>
+            </div>
+            <div class="song-info">
+                <div class="song-title">Deadman</div>
+                <div class="song-artist">蔡徐坤</div>
+                <div class="controls">
+                    <button class="control-btn prev-btn">⏮</button>
+                    <button class="control-btn play-pause" id="playPause">▶</button>
+                    <button class="control-btn next-btn">⏭</button>
+                    <button class="control-btn favorite" id="favorite">♡</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audioPlayer">
+        <source src="Deadman-蔡徐坤.mp3" type="audio/mpeg">
+        您的浏览器不支持音频播放。
+    </audio>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playPauseBtn = document.getElementById('playPause');
+        const vinyl = document.getElementById('vinyl');
+        const favoriteBtn = document.getElementById('favorite');
+        
+        playPauseBtn.addEventListener('click', function() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playPauseBtn.textContent = '㉿';
+                vinyl.classList.add('playing');
+            } else {
+                audioPlayer.pause();
+                playPauseBtn.textContent = '▶';
+                vinyl.classList.remove('playing');
+            }
+        });
+        
+        favoriteBtn.addEventListener('click', function() {
+            favoriteBtn.classList
 <h2>感谢观看！</h2>
 <p2>此网站创作权 解释权归站长所有<br>
 如有冒昧 还请受着<br>
