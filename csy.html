@@ -134,43 +134,38 @@ span {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>迷你音乐播放器</title>
     <style>
-        .mini-player {
+        .music-player {
             width: 300px;
-            height: 120px;  /* 高度从150px减小到120px */
-            background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+            height: 100px;
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
             border-radius: 12px;
-            padding: 10px;  /* 内边距相应减小 */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            padding: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             color: white;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             display: flex;
-            flex-direction: column;
             margin: 20px auto;
-        }
-
-        .player-content {
-            display: flex;
-            flex: 1;
+            position: relative;
+            overflow: hidden;
         }
 
         .vinyl-container {
             position: relative;
-            width: 70px;  /* 唱片尺寸相应减小 */
+            width: 70px;
             height: 70px;
-            margin-right: 12px;
+            margin-right: 15px;
         }
 
         .vinyl {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: #000;
+            background: linear-gradient(135deg, #121212, #000000);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
-            transition: transform 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .vinyl-image {
@@ -185,11 +180,12 @@ span {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 16px;
-            height: 16px;
-            background: #fff;
+            width: 15px;
+            height: 15px;
+            background: white;
             border-radius: 50%;
             z-index: 2;
+            border: 2px solid rgba(0, 0, 0, 0.3);
         }
 
         .song-info {
@@ -200,54 +196,57 @@ span {
         }
 
         .song-title {
-            font-size: 14px;  /* 字体相应减小 */
-            font-weight: bold;
-            margin-bottom: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .song-artist {
-            font-size: 11px;
-            color: #aaa;
-            margin-bottom: 8px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
         }
 
         .controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 8px;
         }
 
         .control-btn {
-            background: none;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
             color: white;
-            font-size: 16px;  /* 按钮尺寸减小 */
+            font-size: 14px;
             cursor: pointer;
-            padding: 4px;
+            padding: 6px;
             border-radius: 50%;
-            transition: background 0.3s;
+            transition: all 0.2s;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .control-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .play-pause {
-            font-size: 20px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .favorite {
-            color: #ff4757;
-            font-size: 16px;
-            margin-left: auto;
+            color: #ff5e7d;
         }
 
         .favorite.active {
-            color: #ff4757;
+            color: #ff5e7d;
         }
 
         @keyframes rotate {
@@ -256,29 +255,46 @@ span {
         }
 
         .vinyl.playing {
-            animation: rotate 5s linear infinite;
+            animation: rotate 4s linear infinite;
+        }
+
+        .progress-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff5e7d, #7e57c2);
+            width: 0%;
+            transition: width 0.1s linear;
         }
     </style>
 </head>
 <body>
-    <div class="mini-player">
-        <div class="player-content">
-            <div class="vinyl-container">
-                <div class="vinyl" id="vinyl">
-                    <img src="cxk.jpg"class="vinyl-image">
-                    <div class="vinyl-center"></div>
-                </div>
+    <div class="music-player">
+        <div class="vinyl-container">
+            <div class="vinyl" id="vinyl">
+                <img scxk.jpg"cxk" alt="专辑封面" class="vinyl-image">
+                <div class="vinyl-center"></div>
             </div>
-            <div class="song-info">
-                <div class="song-title">Deadman</div>
-                <div class="song-artist">蔡徐坤</div>
-                <div class="controls">
-                    <button class="control-btn prev-btn">⏮</button>
-                    <button class="control-btn play-pause" id="playPause">▶</button>
-                    <button class="control-btn next-btn">⏭</button>
-                    <button class="control-btn favorite" id="favorite">♡</button>
-                </div>
+        </div>
+        <div class="song-info">
+            <div class="song-title">Deadman</div>
+            <div class="song-artist">蔡徐坤</div>
+            <div class="controls">
+                <button class="control-btn prev-btn">⏮</button>
+                <button class="control-btn play-pause" id="playPause">▶</button>
+                <button class="control-btn next-btn">⏭</button>
+                <button class="control-btn favorite" id="favorite">♡</button>
             </div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
         </div>
     </div>
 
@@ -292,21 +308,51 @@ span {
         const playPauseBtn = document.getElementById('playPause');
         const vinyl = document.getElementById('vinyl');
         const favoriteBtn = document.getElementById('favorite');
-        
+        const progressBar = document.getElementById('progressBar');
+
+        // 播放/暂停功能
         playPauseBtn.addEventListener('click', function() {
             if (audioPlayer.paused) {
-                audioPlayer.play();
-                playPauseBtn.textContent = '㉿';
-                vinyl.classList.add('playing');
+                audioPlayer.play().then(() => {
+                    playPauseBtn.textContent = '㉿';
+                    vinyl.classList.add('playing');
+                }).catch(error => {
+                    console.error('播放错误:', error);
+                    alert('无法播放音频，请检查文件路径或格式');
+                });
             } else {
                 audioPlayer.pause();
                 playPauseBtn.textContent = '▶';
                 vinyl.classList.remove('playing');
             }
         });
-        
+
+        // 收藏功能
         favoriteBtn.addEventListener('click', function() {
-            favoriteBtn.classList
+            favoriteBtn.classList.toggle('active');
+            favoriteBtn.textContent = favoriteBtn.classList.contains('active') ? '♥' : '♡';
+        });
+
+        // 更新进度条
+        audioPlayer.addEventListener('timeupdate', function() {
+            const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progressBar.style.width = progress + '%';
+        });
+
+        // 点击进度条跳转
+        document.querySelector('.progress-container').addEventListener('click', function(e) {
+            const percent = e.offsetX / this.offsetWidth;
+            audioPlayer.currentTime = percent * audioPlayer.duration;
+        });
+
+        // 音频播放结束事件
+        audioPlayer.addEventListener('ended', function() {
+            playPauseBtn.textContent = '▶';
+            vinyl.classList.remove('playing');
+        });
+    </script>
+</body>
+</html>
 <h2>感谢观看！</h2>
 <p2>此网站创作权 解释权归站长所有<br>
 如有冒昧 还请受着<br>
